@@ -1,0 +1,29 @@
+{
+  "name": "laco-agency/uploader",
+  "description": "Yii2 file uploader",
+  "homepage": "http://github.com/laco-agency/uploader",
+  "keywords": [
+    "yii2",
+    "file",
+    "upload",
+    "uploader"
+  ],
+  "type": "yii2-extension",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Laco agency",
+      "email": "info@laco.pro",
+      "homepage": "http://laco.pro"
+    }
+  ],
+  "require": {
+    "yiisoft/yii2": "*",
+    "yiisoft/yii2-imagine":"*"
+  },
+  "autoload": {
+    "psr-4": {
+      "laco\\uploader\\": "src"
+    }
+  }
+}
