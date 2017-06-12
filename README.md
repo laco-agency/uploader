@@ -24,15 +24,19 @@ Usage
 -----
 
 ```php
-use laco\uploader;
 
-class Model extends yii\db\ActiveRecord{
+use laco\uploader\UploaderBehavior;
+use laco\uploader\storage\ModelStorage;
+use laco\uploader\processor\ImageProcessor;
+
+class Model extends yii\db\ActiveRecord
+{
 
  public function behaviors()
     {
         return [
             [
-                'class' => UploadBehaviour::className(),
+                'class' => UploaderBehavior::className(),
                 'uploadAttributes' => [
                     'image' => [
                         'storage' => [

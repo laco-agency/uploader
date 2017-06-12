@@ -23,7 +23,7 @@ use yii\helpers\FileHelper;
 
 use yii\base\Behavior as BaseBehavior;
 
-class Behavior extends BaseBehavior
+class UploaderBehavior extends BaseBehavior
 {
     public $uploadAttributes;
 
