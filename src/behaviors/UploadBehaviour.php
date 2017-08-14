@@ -78,6 +78,7 @@ class UploadBehaviour extends Behavior
                 if (!$event->isValid = $this->_saveAttributeFileToTemp($attribute)) {
                     break;
                 }
+                $owner->$attribute = $this->_tempFiles[$attribute]->getName();
             }
         }
     }
@@ -91,6 +92,7 @@ class UploadBehaviour extends Behavior
                 if (!$event->isValid = $this->_saveAttributeFile($attribute)) {
                     break;
                 }
+                $owner->$attribute = $this->_files[$attribute]->getName();
             }
         }
     }
