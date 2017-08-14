@@ -19,7 +19,8 @@
   ],
   "require": {
     "yiisoft/yii2": "*",
-    "yiisoft/yii2-imagine":"*"
+    "yiisoft/yii2-imagine":"*",
+    "tinymce/tinymce": ">=4"
   },
   "autoload": {
     "psr-4": {

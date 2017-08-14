@@ -11,49 +11,39 @@ use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
 use Imagine\Image\ImageInterface;
+use yii\base\Object;
 use yii\helpers\ArrayHelper;
 use Imagine\Exception\Exception;
 
-class ImageProcessor extends BaseProcessor
+class ImageProcessor extends Object implements ProcessorInterface
 {
+    public $width;
+    public $height;
+    public $crop;
     public $quality = ['jpeg_quality' => 100, 'png_compression_level' => 9];
+    private $_errors = [];
 
-    public function run()
+    public function run($inputFileFullName, $outputFileFullName)
     {
+        if (!$this->width || !$this->height) {
+            return true;
+        }
         try {
-            foreach ($this->getOptions() as $suffix => $options) {
-                $this->_convert(
-                    $this->getInputFileFullName(),
-                    $this->getOutputFileFullName($suffix),
-                    $options
-                );
+            $image = (new Imagine())->open($inputFileFullName);
+            if ($this->crop) {
+                $this->_resizeWithCrop($image, $this->width, $this->height)->save($outputFileFullName, $this->quality);
+            } else {
+                // ImageInterface::THUMBNAIL_OUTBOUND - размер может вылазить за границы
+                // ImageInterface::THUMBNAIL_INSET - обрежет по границе
+                $image->thumbnail(new Box($this->width, $this->height),
+                    ImageInterface::THUMBNAIL_OUTBOUND)->save($outputFileFullName, $this->quality);
             }
         } catch (Exception $e) {
+            $this->addError($e->getMessage());
             return false;
         }
 
         return true;
-    }
-
-    private function _convert($inputFile, $outputFile, $options)
-    {
-        $crop = ArrayHelper::getValue($options, 'crop', true);
-        $width = ArrayHelper::getValue($options, 'width');
-        $height = ArrayHelper::getValue($options, 'height');
-
-        if (!$width || !$height) {
-            return;
-        }
-
-        $image = (new Imagine())->open($inputFile);
-        if ($crop) {
-            $this->_resizeWithCrop($image, $width, $height)->save($outputFile, $this->quality);
-        } else {
-            // ImageInterface::THUMBNAIL_OUTBOUND - размер может вылазить за границы
-            // ImageInterface::THUMBNAIL_INSET - обрежет по границе
-            $image->thumbnail(new Box($width, $height), ImageInterface::THUMBNAIL_OUTBOUND)->save($outputFile,
-                $this->quality);
-        }
     }
 
     /**
@@ -75,7 +65,21 @@ class ImageProcessor extends BaseProcessor
         $widthP = max(0, round(($widthI - $width) / 2));
         $heightP = max(0, round(($heightI - $height) / 2));
 
-        return $image->resize(new Box($widthI, $heightI))->crop(new Point($widthP, $heightP),
-            new Box($width, $height));
+        return $image->resize(new Box($widthI, $heightI))->crop(new Point($widthP, $heightP), new Box($width, $height));
+    }
+
+    public function getErrors()
+    {
+        return $this->_errors;
+    }
+
+    public function hasErrors()
+    {
+        return (bool)count($this->_errors);
+    }
+
+    public function addError($error)
+    {
+        $this->_errors[] = $error;
     }
 }

@@ -13,13 +13,5 @@ use laco\uploader\storageFile\StorageFileInterface;
 
 interface ProcessorInterface
 {
-    public function setSourceFile(SourceFileInterface $file);
-
-    public function setStorageFile(StorageFileInterface $file);
-
-    public function setOptions($options);
-
-    public function getSuffixes();
-
-    public function run();
+    public function run($inputFileFullName, $outputFileFullName);
 }

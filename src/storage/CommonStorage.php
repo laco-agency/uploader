@@ -7,8 +7,9 @@
 
 namespace laco\uploader\storage;
 
-
 class CommonStorage extends BaseStorage
 {
-
+    public $webRootAlias = '@frontend/web';
+    public $webPathTemplate = 'uploads/common';
+    public $webBaseUrl = '@frontendUrl'; // нужен AppAliases
 }

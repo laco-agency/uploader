@@ -5,9 +5,9 @@
  * Date: 30.04.2017
  */
 
-namespace laco\uploader\storageFile;
+namespace laco\uploader\storage;
 
 
-interface StorageFileInterface
+interface StorageInterface
 {
 }

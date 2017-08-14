@@ -15,19 +15,28 @@ composer require --prefer-dist laco-agency/uploader
 or add
 
 ```json
-"laco-agency/uploader": "*"
+"laco-agency/uploader":"*"
 ```
 
 to the require section of your composer.json.
 
 Usage
 -----
+Add module to config file
 
 ```php
 
-use laco\uploader\UploaderBehavior;
-use laco\uploader\storage\ModelStorage;
+ 'uploader' => ['class' => '\laco\uploader\Module'],
+``` 
+
+Attach UploaderBehavior to model and configere file attributes
+
+```php
+
 use laco\uploader\processor\ImageProcessor;
+use laco\uploader\storage\ModelStorage;
+use laco\uploader\storageFile\StorageFile;
+use laco\uploader\behaviors\UploadBehaviour;
 
 class Model extends yii\db\ActiveRecord
 {
@@ -38,34 +47,48 @@ class Model extends yii\db\ActiveRecord
             [
                 'class' => UploaderBehavior::className(),
                 'uploadAttributes' => [
-                    'image' => [
-                        'storage' => [
-                            'class' => ModelStorage::className(),
-                        ]
-                    ],
+                [
+                'class' => UploadBehaviour::className(),
+                'uploadAttributes' => [
                     'image_preview' => [
-                        'storage' => [
-                            'class' => ModelStorage::className(),
-                            'processor' => [
+                        'class' => StorageFile::className(),
+                        'storage' => ModelStorage::className(),
+                        'processOptions' => [
+                            'origin' => [
                                 'class' => ImageProcessor::className(),
-                                'options' => [
-                                    'origin' => ['width' => 808, 'height' => 455, 'crop' => true],
-                                    'thumb' => ['width' => 244, 'height' => 138, 'crop' => true],
-                                ]
-                            ]
+                                'width' => 912,
+                                'height' => 570,
+                                'crop' => true
+                            ],
+                            'thumb' => [
+                                'class' => ImageProcessor::className(),
+                                'width' => 244,
+                                'height' => 138,
+                                'crop' => true
+                            ],
                         ]
-                    ],                    
+                    ],                   
                 ]
             ]
         ];
     }
-    
+ 
+   
+   // Configure validation rules for files attributes as regular   
     public function rules()
     {
         return [
-            [['image'], 'file'],
             [['image_preview'], 'image'],
         ];
     }
 }
+```
+
+TinyMCE
+-----
+In view file
+```php
+use laco\uploader\widgets\tinyMce\TinyMce;
+
+<?= $form->field($model, 'content')->widget(TinyMce::className()); ?>
 ```

@@ -7,149 +7,54 @@
 
 namespace laco\uploader\storageFile;
 
-
+use Yii;
 use laco\uploader\storage\BaseStorage;
 use yii\base\Object;
-use yii\helpers\FileHelper;
-use yii\helpers\Url;
+
 
 /**
  * Class BaseStorageFile
- * @property $storage;
- * @property $suffixes;
+ * @property BaseStorage $storage;
  */
 class BaseStorageFile extends Object implements StorageFileInterface
 {
+    public $model;
+    public $attribute;
+    /** @var $storage  */
+    public $storage;
+
     protected $baseName;
     protected $extension;
-    protected $suffixes = [];
 
-    /** @var  BaseStorage */
-    private $_storage;
+    private $_errors = [];
 
+    public function init()
+    {
+        parent::init();
+
+        if (!($this->storage instanceof Object)) {
+            $this->storage = Yii::createObject($this->storage);
+            if (empty($this->storage->model)) {
+                $this->storage->model = $this->model;
+            }
+        }
+    }
 
     public function getBaseName()
     {
         if ($this->baseName === null) {
-            $this->baseName = $this->getStorage()->getSourceFile() ?
-                $this->getStorage()->getSourceFile()->getBaseName()
-                : $this->getAttributeBaseName();
+            $this->baseName = $this->extractBaseName($this->model->{$this->attribute});
         }
         return $this->baseName;
     }
 
-    public function getAttributeBaseName()
-    {
-        $fileName = $this->getStorage()->model->{$this->getStorage()->attribute};
-        return $this->extractBaseName($fileName);
-    }
-
-    public function setBaseName($baseName)
-    {
-        $this->baseName = $baseName;
-    }
-
     public function getExtension()
     {
-        if (empty($this->extension)) {
-            $this->extension = $this->getStorage()->getSourceFile() ?
-                $this->getStorage()->getSourceFile()->getExtension()
-                : $this->getAttributeExtension();
+        if ($this->extension === null) {
+            $this->extension = $this->extractExtension($this->model->{$this->attribute});
         }
         return $this->extension;
     }
-
-    public function setExtension($extension)
-    {
-        $this->extension = $extension;
-    }
-
-    public function getAttributeExtension()
-    {
-        $fileName = $this->getStorage()->model->{$this->getStorage()->attribute};
-        return $this->extractExtension($fileName);
-    }
-
-    public function getFullName($suffix = '')
-    {
-        return $this->getStorage()->getSavePath() . DIRECTORY_SEPARATOR . $this->getName($suffix);
-    }
-
-    public function getName($suffix = '')
-    {
-        if ($this->getBaseName() === '') {
-            return null;
-        }
-        if (empty($suffix)) {
-            $name = $this->getBaseName() . '.' . $this->getExtension();
-        } else {
-            $name = $this->getBaseName() . '_' . $suffix . '.' . $this->getExtension();
-        }
-        return $name;
-    }
-
-    public function setName($fileName)
-    {
-        $this->setBaseName($this->extractBaseName($fileName));
-        $this->setExtension($this->extractExtension($fileName));
-    }
-
-    public function getUrl($suffix = '')
-    {
-        if ($this->getName($suffix) === null) {
-            return null;
-        }
-        $url = '/' . $this->getStorage()->getWebPath() . '/' . $this->getName($suffix);
-        return Url::to($this->getStorage()->webBaseUrl . $url);
-    }
-
-    public function getAllUrls()
-    {
-        $result = [];
-        if ($suffixes = $this->getSuffixes()) {
-            foreach ($suffixes as $suffix) {
-                $result[$suffix] = $this->getUrl($suffix);
-            }
-        } else {
-            $result[] = $this->getUrl();
-        }
-        return $result;
-
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSuffixes()
-    {
-        if (empty($this->suffixes)) {
-            $this->suffixes = $this->getStorage()->getFileSuffixes();
-        }
-
-        return $this->suffixes;
-    }
-
-    /**
-     * @param array $suffixes
-     */
-    public function setSuffixes($suffixes)
-    {
-        $this->suffixes = $suffixes;
-    }
-
-    /**
-     * @return BaseStorage
-     */
-    public function getStorage()
-    {
-        return $this->_storage;
-    }
-
-    public function setStorage(BaseStorage $storage)
-    {
-        $this->_storage = $storage;
-    }
-
 
     public function extractExtension($fileName)
     {
@@ -161,5 +66,27 @@ class BaseStorageFile extends Object implements StorageFileInterface
         $pathInfo = pathinfo($fileName, PATHINFO_FILENAME);
         $pathInfo = '_' . $pathInfo;
         return mb_substr($pathInfo, 1, mb_strlen($pathInfo, '8bit'), '8bit');
+    }
+
+    public function getErrors()
+    {
+        return $this->_errors;
+    }
+
+    public function hasErrors()
+    {
+        return (bool)count($this->_errors);
+    }
+
+    public function addErrors($errors)
+    {
+        foreach ($errors as $error) {
+            $this->_errors[] = $error;
+        }
+    }
+
+    public function addError($error)
+    {
+        $this->_errors[] = $error;
     }
 }

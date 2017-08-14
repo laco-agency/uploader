@@ -17,4 +17,6 @@ class UploadedFile extends \yii\web\UploadedFile implements SourceFileInterface
     {
         return $this->tempName;
     }
+
+
 }
