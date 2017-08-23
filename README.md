@@ -29,14 +29,14 @@ Add module to config file
  'uploader' => ['class' => '\laco\uploader\Module'],
 ``` 
 
-Attach UploaderBehavior to model and configere file attributes
+Attach UploadBehavior to model and configere file attributes
 
 ```php
 
 use laco\uploader\processor\ImageProcessor;
 use laco\uploader\storage\ModelStorage;
 use laco\uploader\storageFile\StorageFile;
-use laco\uploader\behaviors\UploadBehaviour;
+use laco\uploader\behaviors\UploadBehavior;
 
 class Model extends yii\db\ActiveRecord
 {
@@ -45,10 +45,7 @@ class Model extends yii\db\ActiveRecord
     {
         return [
             [
-                'class' => UploaderBehavior::className(),
-                'uploadAttributes' => [
-                [
-                'class' => UploadBehaviour::className(),
+                'class' => UploadBehavior::className(),
                 'uploadAttributes' => [
                     'image_preview' => [
                         'class' => StorageFile::className(),
@@ -88,7 +85,7 @@ TinyMCE
 -----
 In view file
 ```php
-use laco\uploader\widgets\tinyMce\TinyMce;
+use laco\uploader\widgets\tinymce\TinyMce;
 
 <?= $form->field($model, 'content')->widget(TinyMce::className()); ?>
 ```

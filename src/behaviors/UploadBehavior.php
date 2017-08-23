@@ -11,7 +11,6 @@
 
 namespace laco\uploader\behaviors;
 
-use laco\uploader\sourceFile\LocalFile;
 use laco\uploader\sourceFile\SourceFileInterface;
 use laco\uploader\sourceFile\UploadedFile;
 use laco\uploader\storage\TempStorage;
@@ -22,7 +21,7 @@ use yii\db\BaseActiveRecord;
 use yii\helpers\FileHelper;
 
 
-class UploadBehaviour extends Behavior
+class UploadBehavior extends Behavior
 {
     public $uploadAttributes;
 
