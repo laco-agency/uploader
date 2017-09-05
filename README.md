@@ -81,6 +81,20 @@ class Model extends yii\db\ActiveRecord
 }
 ```
 
+
+Image file input
+-----
+In view file
+```php
+    <?= \laco\uploader\widgets\image\Image::widget([
+        'model' => $model,
+        'attribute' => 'image',
+        'imageUrl' => $model->getFileUrl('image', 'thumb')
+    ]);
+    ?>
+```
+
+
 TinyMCE
 -----
 In view file
