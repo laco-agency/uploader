@@ -11,8 +11,6 @@ $imageOptions = $this->context->imageOptions;
 <div class="form-group">
 
     <?php
-    echo Html::activeLabel($model, $attribute, ['class' => 'control-label']) . '<br>';
-
     $id = Html::getInputId($model, $attribute);
     if ($model->$attribute) {
         echo Html::img($imageUrl, array_merge($imageOptions, ['id' => $id . '_image']));

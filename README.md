@@ -86,12 +86,10 @@ Image file input
 -----
 In view file
 ```php
-    <?= \laco\uploader\widgets\image\Image::widget([
-        'model' => $model,
-        'attribute' => 'image',
-        'imageUrl' => $model->getFileUrl('image', 'thumb')
-    ]);
-    ?>
+use \laco\uploader\widgets\image\Image;
+
+    <?= $form->field($model, 'image_preview')->widget(Image::className(),
+    ['imageUrl' => $model->getFileUrl('image_preview', 'thumb')]); ?>
 ```
 
 

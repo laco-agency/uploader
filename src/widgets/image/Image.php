@@ -20,8 +20,8 @@ class Image extends InputWidget
      */
     public function run()
     {
-        return $this->render('index');
+        parent::run();
+        $this->field->form->options['enctype'] = 'multipart/form-data';
+        echo $this->render('index');
     }
-
-
 }
