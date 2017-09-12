@@ -48,7 +48,7 @@ class TinyMce extends InputWidget
         }
 
         echo Html::fileInput('redactor-file', null,
-            ['class' => 'redactor-file', 'data-upload-url' => $this->uploadUrl]);
+            ['class' => 'redactor-file', 'data-upload-url' => $this->uploadUrl, 'style' => 'display:none']);
 
         if ($this->registerScript) {
             $this->registerClientScript();
