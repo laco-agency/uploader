@@ -35,8 +35,7 @@ class ImageProcessor extends Object implements ProcessorInterface
             } else {
                 // ImageInterface::THUMBNAIL_OUTBOUND - размер может вылазить за границы
                 // ImageInterface::THUMBNAIL_INSET - обрежет по границе
-                $image->thumbnail(new Box($this->width, $this->height),
-                    ImageInterface::THUMBNAIL_OUTBOUND)->save($outputFileFullName, $this->quality);
+                $image->thumbnail(new Box($this->width, $this->height))->save($outputFileFullName, $this->quality);
             }
         } catch (Exception $e) {
             $this->addError($e->getMessage());
