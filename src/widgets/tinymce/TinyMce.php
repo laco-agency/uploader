@@ -21,10 +21,7 @@ class TinyMce extends InputWidget
     public $options = ['rows' => 10, 'class' => 'tinymce-element'];
 
     public $clientOptions = [
-        'skin' => 'white',
-        'skin_url' => '/css/tinymce/skins/white',
         'menubar' => false,
-        //'statusbar' => false,
         'powerpaste_word_import' => 'clean',
         'powerpaste_html_import' => 'merge',
         'file_browser_callback_types' => 'file image',
