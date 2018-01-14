@@ -22,6 +22,7 @@ class TinyMce extends InputWidget
 
     public $clientOptions = [
         'menubar' => false,
+        'default_link_target'=> '_blank',
         'powerpaste_word_import' => 'clean',
         'powerpaste_html_import' => 'merge',
         'file_browser_callback_types' => 'file image',
