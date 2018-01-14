@@ -219,6 +219,8 @@ class UploadBehavior extends Behavior
             foreach (array_keys($fromFile->processOptions) as $suffix) {
                 @copy($fromFile->getFullName($suffix), $toFile->getFullName($suffix));
             }
+        }else{
+	        @copy($fromFile->getFullName(), $toFile->getFullName());
         }
     }
 
