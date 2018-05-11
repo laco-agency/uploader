@@ -11,11 +11,11 @@ use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
 use Imagine\Image\ImageInterface;
-use yii\base\Object;
+use yii\base\BaseObject;
 use yii\helpers\ArrayHelper;
 use Imagine\Exception\Exception;
 
-class ImageProcessor extends Object implements ProcessorInterface
+class ImageProcessor extends BaseObject implements ProcessorInterface
 {
     public $width;
     public $height;

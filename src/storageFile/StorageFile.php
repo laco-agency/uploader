@@ -11,7 +11,7 @@ namespace laco\uploader\storageFile;
 use laco\uploader\sourceFile\SourceFileInterface;
 use Yii;
 use laco\uploader\storage\BaseStorage;
-use yii\base\Object;
+use yii\base\BaseObject;
 use yii\helpers\FileHelper;
 use yii\helpers\Inflector;
 use yii\helpers\Url;

@@ -9,14 +9,14 @@ namespace laco\uploader\storageFile;
 
 use Yii;
 use laco\uploader\storage\BaseStorage;
-use yii\base\Object;
+use yii\base\BaseObject;
 
 
 /**
  * Class BaseStorageFile
  * @property BaseStorage $storage;
  */
-class BaseStorageFile extends Object implements StorageFileInterface
+class BaseStorageFile extends BaseObject implements StorageFileInterface
 {
     public $model;
     public $attribute;
@@ -32,7 +32,7 @@ class BaseStorageFile extends Object implements StorageFileInterface
     {
         parent::init();
 
-        if (!($this->storage instanceof Object)) {
+        if (!($this->storage instanceof BaseObject)) {
             $this->storage = Yii::createObject($this->storage);
             if (empty($this->storage->model)) {
                 $this->storage->model = $this->model;

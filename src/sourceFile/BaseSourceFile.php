@@ -8,7 +8,7 @@
 namespace laco\uploader\sourceFile;
 
 use Yii;
-use yii\base\Object;
+use yii\base\BaseObject;
 
 /**
  *
@@ -16,7 +16,7 @@ use yii\base\Object;
  * @property string $baseName
  * @property string $fullName
  */
-class BaseSourceFile extends Object implements SourceFileInterface
+class BaseSourceFile extends BaseObject implements SourceFileInterface
 {
     protected $_baseName;
     protected $_fullName;

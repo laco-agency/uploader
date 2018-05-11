@@ -8,14 +8,14 @@
 namespace laco\uploader\storage;
 
 use Yii;
-use yii\base\Object;
+use yii\base\BaseObject;
 use yii\base\UnknownPropertyException;
 use yii\db\ActiveRecord;
 use yii\helpers\FileHelper;
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
 
-class BaseStorage extends Object implements StorageInterface
+class BaseStorage extends BaseObject implements StorageInterface
 {
     /** @var ActiveRecord */
     public $model;
