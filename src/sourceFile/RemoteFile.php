@@ -7,6 +7,7 @@
 
 namespace laco\uploader\sourceFile;
 
+use yii\helpers\FileHelper;
 /**
  * Предпологается использовать для файлов доступных по ссылке
  * Class RemoteFile
