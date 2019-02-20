@@ -24,6 +24,10 @@ class RemoteFile extends BaseSourceFile implements SourceFileInterface
             $this->_extension = parent::getExtension();
             $this->_extension = explode('?', $this->_extension);
             $this->_extension = $this->_extension[0];
+            if (!$this->_extension) {
+                $headers = get_headers($this->_fullName, 1);
+                $this->_extension = isset($headers['Content-Type']) ? end(FileHelper::getExtensionsByMimeType($headers['Content-Type'])) : '';
+            }
         }
 
         return $this->_extension;
