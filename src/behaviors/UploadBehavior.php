@@ -11,14 +11,14 @@
 
 namespace laco\uploader\behaviors;
 
-use laco\uploader\sourceFile\SourceFileInterface;
-use laco\uploader\sourceFile\UploadedFile;
-use laco\uploader\storage\TempStorage;
-use yii\db\ActiveRecord;
 use Yii;
 use yii\base\Behavior;
-use yii\db\BaseActiveRecord;
+use yii\db\ActiveRecord;
 use yii\helpers\FileHelper;
+use yii\db\BaseActiveRecord;
+use laco\uploader\storage\TempStorage;
+use laco\uploader\sourceFile\UploadedFile;
+use laco\uploader\sourceFile\SourceFileInterface;
 
 
 class UploadBehavior extends Behavior
@@ -145,7 +145,7 @@ class UploadBehavior extends Behavior
             if (Yii::$app->request->isConsoleRequest) {
                 $this->_editSessionKey = Yii::$app->getSecurity()->generateRandomString();
             } else {
-                $this->_editSessionKey = request()->post('editSessionKey',
+                $this->_editSessionKey = Yii::$app->request->post('editSessionKey',
                     Yii::$app->getSecurity()->generateRandomString());
             }
         }

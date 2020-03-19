@@ -2,13 +2,13 @@
 
 namespace laco\uploader\controllers;
 
-use laco\uploader\storage\CommonStorage;
-use laco\uploader\storageFile\StorageFile;
 use Yii;
-use laco\uploader\sourceFile\UploadedFile;
+use yii\web\Response;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\Response;
+use laco\uploader\storage\CommonStorage;
+use laco\uploader\storageFile\StorageFile;
+use laco\uploader\sourceFile\UploadedFile;
 
 class UploadController extends Controller
 {
@@ -24,12 +24,13 @@ class UploadController extends Controller
                 'result' => []
             ];
         }
-        $storageFile = new StorageFile(['storage' => CommonStorage::className()]);
-        if($storageFile->save($uploadedFile)){
+        $storageFile = new StorageFile(['storage' => CommonStorage::class]);
+        if ($storageFile->save($uploadedFile)) {
             return [
                 'error_code' => 0,
                 'error_messages' => [],
-                'result' => ['url'=>$storageFile->getUrl(), 'fileName'=>$storageFile->getName()]
+                'result' => ['url' => $storageFile->getUrl(), 'fileName' => $storageFile->getName()],
+                'location' => $storageFile->getUrl()
             ];
         }
     }
